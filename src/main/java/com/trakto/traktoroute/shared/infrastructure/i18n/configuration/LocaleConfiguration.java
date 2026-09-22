@@ -1,4 +1,4 @@
-package com.transportation.shared.infrastructure.i18n.configuration;
+package com.trakto.traktoroute.shared.infrastructure.i18n.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

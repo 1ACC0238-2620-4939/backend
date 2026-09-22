@@ -1,4 +1,4 @@
-package com.transportation.shared.infrastructure.documentation.openapi.configuration;
+package com.trakto.traktoroute.shared.infrastructure.documentation.openapi.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

@@ -1,4 +1,4 @@
-package com.transportation.shared.domain.models.aggregates;
+package com.trakto.traktoroute.shared.domain.models.aggregates;
 
 import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.AbstractAggregateRoot;

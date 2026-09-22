@@ -1,4 +1,4 @@
-package com.transportation.shared.infrastructure.persistence.jpa.entities;
+package com.trakto.traktoroute.shared.infrastructure.persistence.jpa.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

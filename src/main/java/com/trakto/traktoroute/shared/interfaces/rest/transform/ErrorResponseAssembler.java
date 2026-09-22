@@ -1,7 +1,7 @@
-package com.transportation.shared.interfaces.rest.transform;
+package com.trakto.traktoroute.shared.interfaces.rest.transform;
 
-import com.transportation.shared.application.result.ApplicationError;
-import com.transportation.shared.interfaces.rest.resources.ErrorResource;
+import com.trakto.traktoroute.shared.application.result.ApplicationError;
+import com.trakto.traktoroute.shared.interfaces.rest.resources.ErrorResource;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;

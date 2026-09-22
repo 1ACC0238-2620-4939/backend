@@ -1,4 +1,4 @@
-package com.transportation.shared.infrastructure.persistence.jpa.configuration.strategy;
+package com.trakto.traktoroute.shared.infrastructure.persistence.jpa.configuration.strategy;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

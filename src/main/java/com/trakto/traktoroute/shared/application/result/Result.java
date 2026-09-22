@@ -1,4 +1,4 @@
-package com.transportation.shared.application.result;
+package com.trakto.traktoroute.shared.application.result;
 
 import java.util.Optional;
 import java.util.function.Function;

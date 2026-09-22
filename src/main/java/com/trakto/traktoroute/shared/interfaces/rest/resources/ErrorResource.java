@@ -1,4 +1,4 @@
-package com.transportation.shared.interfaces.rest.resources;
+package com.trakto.traktoroute.shared.interfaces.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.annotation.Nullable;
