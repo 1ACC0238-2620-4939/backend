@@ -1,9 +1,8 @@
-package com.trakto.traktoroute.trip.domain.model.valueobjects;
+package com.trakto.traktoroute.trip.domain.model.valueobjects.trip;
 
 import java.math.BigDecimal;
 
-public record TripLocation (String name,
-                            String address,
+public record TripLocation (String address,
                             BigDecimal latitude,
                             BigDecimal longitude){
 
@@ -15,9 +14,6 @@ public record TripLocation (String name,
 
 
     public TripLocation{
-        if(name == null || name.isBlank()){
-            throw new IllegalArgumentException("Invalid trip location");
-        }
         if(address == null || address.isBlank()){
             throw new IllegalArgumentException("Invalid trip location");
         }
@@ -27,5 +23,7 @@ public record TripLocation (String name,
         if(longitude == null || longitude.compareTo(MIN_LONGITUDE) < 0 || longitude.compareTo(MAX_LONGITUDE) > 0){
             throw new IllegalArgumentException("Invalid trip location");
         }
+        address = address.trim();
     }
+
 }

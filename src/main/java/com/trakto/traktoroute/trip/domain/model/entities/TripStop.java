@@ -1,34 +1,82 @@
 package com.trakto.traktoroute.trip.domain.model.entities;
 
-import com.trakto.traktoroute.trip.domain.model.enums.StopStatus;
-import com.trakto.traktoroute.trip.domain.model.enums.StopType;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.TripLocation;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopId;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopSequence;
 
-import java.time.Instant;
+import com.trakto.traktoroute.trip.domain.model.enums.StopReason;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopLocation;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.TripInstant;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripLocation;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopId;
+import jakarta.annotation.Nullable;
+import lombok.Getter;
+
 import java.util.Objects;
 
-
+@Getter
 public class TripStop {
     private final StopId id;
-    private final StopSequence sequence;
-    private final TripLocation location;
-    private final StopType type;
-    private final Instant plannedArrivalAt;
-    private StopStatus status;
-    private Instant actualArrivalAt;
+    private final StopLocation location;
+    private final TripInstant startedAt;
 
-    public TripStop(StopId id,
-                    StopSequence sequence,
-                    TripLocation location,
-                    StopType type,
-                    Instant plannedArrivalAt) {
-        this.id = Objects.requireNonNull(id,"tripStopId must not be null");
-        this.sequence = Objects.requireNonNull(sequence,"sequence must not be null");
-        this.location = Objects.requireNonNull(location,"location must not be null");
-        this.type = Objects.requireNonNull(type,"type must not be null");
-        this.status = StopStatus.PENDING;
-        this.plannedArrivalAt = Objects.requireNonNull(plannedArrivalAt,"plannedArrivalAt must not be null");
+    @Nullable
+    private TripInstant endedAt;
+
+    private final StopReason reason;
+
+    public TripStop(
+            StopId id,
+            StopLocation location,
+            TripInstant startedAt,
+            @Nullable TripInstant endedAt,
+            StopReason reason) {
+        this.id = Objects.requireNonNull(id);
+        this.location = Objects.requireNonNull(location);
+        this.startedAt = Objects.requireNonNull(startedAt);
+        this.endedAt = endedAt;
+        this.reason = Objects.requireNonNull(reason);
+    }
+
+    public static TripStop start(
+            StopLocation location,
+            TripInstant startedAt,
+            StopReason reason) {
+        return new TripStop(
+                StopId.generate(),
+                location,
+                startedAt,
+                null,
+                reason
+        );
+    }
+
+    public static TripStop reconstitute(
+            StopId id,
+            StopLocation location,
+            TripInstant startedAt,
+            @Nullable TripInstant endedAt,
+            StopReason reason) {
+        return new TripStop(
+                id,
+                location,
+                startedAt,
+                endedAt,
+                reason
+        );
+    }
+
+    public void finish(TripInstant endedAt) {
+
+        Objects.requireNonNull(endedAt);
+
+        if (this.endedAt != null) {
+            throw new IllegalStateException("Stop has already finished");
+        }
+        if (endedAt.isBefore(startedAt)) {
+            throw new IllegalArgumentException("EndedAt cannot be before startedAt");
+        }
+        this.endedAt = endedAt;
+    }
+
+    public boolean isOpen() {
+        return endedAt == null;
     }
 }

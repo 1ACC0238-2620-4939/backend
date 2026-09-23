@@ -1,8 +1,8 @@
 package com.trakto.traktoroute.trip.domain.model.enums;
 
-public enum StopStatus {
-    PENDING,
-    ARRIVED,
+public enum TripStatus {
+    SCHEDULED,
+    IN_PROGRESS,
     COMPLETED,
-    SKIPPED
+    CANCELLED
 }

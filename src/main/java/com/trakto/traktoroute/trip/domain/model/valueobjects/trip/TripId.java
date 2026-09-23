@@ -1,4 +1,4 @@
-package com.trakto.traktoroute.trip.domain.model.valueobjects;
+package com.trakto.traktoroute.trip.domain.model.valueobjects.trip;
 
 
 import java.util.UUID;
