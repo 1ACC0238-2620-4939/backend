@@ -13,48 +13,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(
-        name = "trip_stops",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_trip_stops_stop_id",
-                        columnNames = "stop_id"
-                )
-        }
-)
+@Table(name = "trip_stops")
 @Getter
 @Setter
 @NoArgsConstructor
-public class TripStopPersistenceEntity
-        extends AuditableAbstractPersistenceEntity {
+public class TripStopPersistenceEntity extends AuditableAbstractPersistenceEntity {
 
     @Convert(converter = StopIdPersistenceConverter.class)
-    @Column(
-            name = "stop_id",
+    @Column(name = "stop_id",
             nullable = false,
             unique = true,
-            updatable = false
-    )
+            updatable = false)
     private StopId stopId;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            optional = false
-    )
-    @JoinColumn(
-            name = "trip_id",
-            nullable = false
-    )
+    @ManyToOne(fetch = FetchType.LAZY,
+            optional = false)
+    @JoinColumn(name = "trip_id",
+            nullable = false,
+            updatable = false)
     private TripPersistenceEntity trip;
 
     @Embedded
     private StopLocationPersistenceEmbeddable location;
 
     @Convert(converter = TripInstantPersistenceConverter.class)
-    @Column(
-            name = "started_at",
-            nullable = false
-    )
+    @Column(name = "started_at",
+            nullable = false)
     private TripInstant startedAt;
 
     @Convert(converter = TripInstantPersistenceConverter.class)
@@ -62,9 +46,7 @@ public class TripStopPersistenceEntity
     private TripInstant endedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(
-            name = "reason",
-            nullable = false
-    )
+    @Column(name = "reason",
+            nullable = false)
     private StopReason reason;
 }

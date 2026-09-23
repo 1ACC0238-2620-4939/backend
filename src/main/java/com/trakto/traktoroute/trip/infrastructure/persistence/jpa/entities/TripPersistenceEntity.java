@@ -20,15 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "trips",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_trips_trip_id",
-                        columnNames = "trip_id"
-                )
-        }
-)
+@Table(name = "trips")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,81 +30,44 @@ public class TripPersistenceEntity extends AuditableAbstractPersistenceEntity {
     @Column(name = "trip_id",
             nullable = false,
             unique = true,
-            updatable = false
-    )
+            updatable = false)
     private TripId tripId;
 
     @Convert(converter = DriverIdPersistenceConverter.class)
     @Column(name = "driver_id",
-            nullable = false
-    )
+            nullable = false)
     private DriverId driverId;
 
     @Convert(converter = VehicleIdPersistenceConverter.class)
     @Column(name = "vehicle_id",
-            nullable = false
-    )
+            nullable = false)
     private VehicleId vehicleId;
 
     @Embedded
-    @AttributeOverrides(
-            {
-            @AttributeOverride(
-            name = "address",
-            column = @Column(
-                            name = "origin_address",
-                            nullable = false
-                    )
-            ),
-            @AttributeOverride(
-                    name = "latitude",
-                    column = @Column(
-                            name = "origin_latitude",
-                            nullable = false
-                    )
-            ),
-            @AttributeOverride(
-                    name = "longitude",
-                    column = @Column(
-                            name = "origin_longitude",
-                            nullable = false
-                    )
-            )
-            }
-    )
+    @AttributeOverrides({
+            @AttributeOverride(name = "address",
+                        column = @Column(name = "origin_address", nullable = false)),
+            @AttributeOverride(name = "latitude",
+                        column = @Column(name = "origin_latitude", nullable = false)),
+            @AttributeOverride(name = "longitude",
+                        column = @Column(name = "origin_longitude", nullable = false))
+    })
     private TripLocationPersistenceEmbeddable origin;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(
-                    name = "address",
-                    column = @Column(
-                            name = "destination_address",
-                            nullable = false
-                    )
-            ),
-            @AttributeOverride(
-                    name = "latitude",
-                    column = @Column(
-                            name = "destination_latitude",
-                            nullable = false
-                    )
-            ),
-            @AttributeOverride(
-                    name = "longitude",
-                    column = @Column(
-                            name = "destination_longitude",
-                            nullable = false
-                    )
-            )
+            @AttributeOverride(name = "address",
+                        column = @Column(name = "destination_address", nullable = false)),
+            @AttributeOverride(name = "latitude",
+                        column = @Column(name = "destination_latitude", nullable = false)),
+            @AttributeOverride(name = "longitude",
+                        column = @Column(name = "destination_longitude", nullable = false))
     })
     private TripLocationPersistenceEmbeddable destination;
 
     @Enumerated(EnumType.STRING)
-    @Column(
-            name = "status",
-            nullable = false
-    )
+    @Column(name = "status",
+            nullable = false)
     private TripStatus status;
 
     @Embedded
@@ -121,21 +76,14 @@ public class TripPersistenceEntity extends AuditableAbstractPersistenceEntity {
     @Embedded
     private TripRoutePlanPersistenceEmbeddable routePlan;
 
-    @OneToMany(
-            mappedBy = "trip",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<TripStopPersistenceEntity> stops =
-            new ArrayList<>();
+    @OneToMany(mappedBy = "trip",
+            cascade = {CascadeType.PERSIST, // Insertar nueva parada
+                        CascadeType.MERGE}) // Actualizar parada existente
+    private List<TripStopPersistenceEntity> stops = new ArrayList<>();
 
     public void addStop(TripStopPersistenceEntity stop) {
         stops.add(stop);
         stop.setTrip(this);
     }
 
-    public void removeStop(TripStopPersistenceEntity stop) {
-        stops.remove(stop);
-        stop.setTrip(null);
-    }
 }

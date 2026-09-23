@@ -14,6 +14,7 @@ import lombok.Getter;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,6 +57,9 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
         this.routePlan = Objects.requireNonNull(routePlan);
         this.stops = new ArrayList<>(Objects.requireNonNull(stops)
         );
+    }
+    public List<TripStop> getStops() {
+        return List.copyOf(stops);
     }
 
     public static Trip create(
@@ -118,63 +122,42 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
     public void start(Instant startedAt) {
 
         if (status != TripStatus.SCHEDULED) {
-            throw new IllegalStateException(
-                    "Only scheduled trips can be started"
-            );
+            throw new IllegalStateException("Only scheduled trips can be started");
         }
 
         this.schedule = schedule.start(startedAt);
         this.status = TripStatus.IN_PROGRESS;
 
-        registerDomainEvent(
-                new TripStartedEvent(
-                        id,
-                        startedAt
-                )
-        );
+        registerDomainEvent(new TripStartedEvent(id, startedAt));
     }
 
     public void complete(Instant completedAt) {
 
         if (status != TripStatus.IN_PROGRESS) {
-            throw new IllegalStateException(
-                    "Only trips in progress can be completed"
-            );
+            throw new IllegalStateException("Only trips in progress can be completed");
         }
 
         this.schedule = schedule.complete(completedAt);
         this.status = TripStatus.COMPLETED;
 
-        registerDomainEvent(
-                new TripCompletedEvent(
-                        id,
-                        completedAt
-                )
-        );
+        registerDomainEvent(new TripCompletedEvent(id, completedAt));
     }
 
     public void cancel(Instant cancelledAt) {
 
         if (status == TripStatus.COMPLETED) {
-            throw new IllegalStateException(
-                    "Completed trip cannot be cancelled"
-            );
+            throw new IllegalStateException("Completed trip cannot be cancelled");
         }
 
         if (status == TripStatus.CANCELLED) {
-            throw new IllegalStateException(
-                    "Trip is already cancelled"
-            );
+            throw new IllegalStateException("Trip is already cancelled");
         }
 
         this.status = TripStatus.CANCELLED;
 
         registerDomainEvent(
-                new TripCancelledEvent(
-                        id,
-                        cancelledAt
-                )
-        );
+                new TripCancelledEvent(id,
+                                        cancelledAt));
     }
 
     public void registerStop(
@@ -184,18 +167,14 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
     ) {
 
         if (status != TripStatus.IN_PROGRESS) {
-            throw new IllegalStateException(
-                    "Stops can only be registered during an active trip"
-            );
+            throw new IllegalStateException("Stops can only be registered during an active trip");
         }
 
         boolean hasOpenStop = stops.stream()
                 .anyMatch(TripStop::isOpen);
 
         if (hasOpenStop) {
-            throw new IllegalStateException(
-                    "Trip already has an active stop"
-            );
+            throw new IllegalStateException("Trip already has an active stop");
         }
 
         var stop = TripStop.start(
@@ -207,39 +186,28 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
         stops.add(stop);
 
         registerDomainEvent(
-                new TripStopRegisteredEvent(
-                        id,
-                        stop.getId(),
-                        startedAt.value()
-                )
-        );
+                new TripStopRegisteredEvent(id,
+                                            stop.getId(),
+                                            startedAt.value()));
     }
 
     public void finishStop(
             StopId stopId,
             TripInstant endedAt
     ) {
-
         var stop = stops.stream()
-                .filter(current ->
-                        current.getId().equals(stopId))
+                .filter(data -> data.getId().equals(stopId))
                 .findFirst()
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Stop does not belong to this trip"
-                        ));
+                .orElseThrow(() -> new IllegalArgumentException("Stop does not belong to this trip"));
 
         stop.finish(endedAt);
 
         registerDomainEvent(
-                new TripStopFinishedEvent(
-                        id,
-                        stopId,
-                        endedAt.value()
+                new TripStopFinishedEvent(id,
+                                        stopId,
+                                        endedAt.value()
                 )
         );
     }
-
-
 
 }
