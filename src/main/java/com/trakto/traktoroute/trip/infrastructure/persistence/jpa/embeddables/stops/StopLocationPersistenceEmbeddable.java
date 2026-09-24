@@ -1,4 +1,4 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stop;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stops;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

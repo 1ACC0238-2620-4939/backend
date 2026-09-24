@@ -1,4 +1,4 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trip;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trips;
 
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.VehicleId;
 import jakarta.persistence.AttributeConverter;

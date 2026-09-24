@@ -5,7 +5,7 @@ import com.trakto.traktoroute.trip.domain.model.enums.TripStatus;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
 import com.trakto.traktoroute.trip.domain.repositories.TripRepository;
 import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.assemblers.TripPersistenceAssembler;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripPersistenceEntity;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips.TripPersistenceEntity;
 import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.repositories.TripPersistenceRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,16 +1,17 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips;
 
 import com.trakto.traktoroute.shared.infrastructure.persistence.jpa.entities.AuditableAbstractPersistenceEntity;
 import com.trakto.traktoroute.trip.domain.model.enums.TripStatus;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.DriverId;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.VehicleId;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trip.DriverIdPersistenceConverter;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trip.TripIdPersistenceConverter;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trip.VehicleIdPersistenceConverter;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripLocationPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripRoutePlanPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripSchedulePersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trips.DriverIdPersistenceConverter;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trips.TripIdPersistenceConverter;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.trips.VehicleIdPersistenceConverter;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripRoutePlanPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripSchedulePersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.stops.TripStopPersistenceEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

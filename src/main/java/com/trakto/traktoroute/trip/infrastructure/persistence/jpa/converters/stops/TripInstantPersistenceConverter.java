@@ -1,4 +1,4 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stop;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stops;
 
 import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.TripInstant;
 import jakarta.persistence.AttributeConverter;

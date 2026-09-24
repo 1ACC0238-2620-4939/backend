@@ -6,11 +6,11 @@ import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopId;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripLocation;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripRoutePlan;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripSchedule;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripLocationPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripRoutePlanPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip.TripSchedulePersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripPersistenceEntity;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripStopPersistenceEntity;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripRoutePlanPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripSchedulePersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips.TripPersistenceEntity;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.stops.TripStopPersistenceEntity;
 
 import java.util.HashMap;
 import java.util.Objects;

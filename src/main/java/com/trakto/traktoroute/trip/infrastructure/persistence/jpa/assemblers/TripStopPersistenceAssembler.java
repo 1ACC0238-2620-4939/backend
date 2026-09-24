@@ -2,8 +2,8 @@ package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.assemblers;
 
 import com.trakto.traktoroute.trip.domain.model.entities.TripStop;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopLocation;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stop.StopLocationPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripStopPersistenceEntity;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stops.StopLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.stops.TripStopPersistenceEntity;
 
 import java.util.Objects;
 

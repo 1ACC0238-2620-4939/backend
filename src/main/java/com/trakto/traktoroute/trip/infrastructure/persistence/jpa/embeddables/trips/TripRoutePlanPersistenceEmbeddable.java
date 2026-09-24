@@ -1,4 +1,4 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trip;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

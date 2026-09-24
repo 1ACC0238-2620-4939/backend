@@ -1,12 +1,13 @@
-package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities;
+package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.stops;
 
 import com.trakto.traktoroute.shared.infrastructure.persistence.jpa.entities.AuditableAbstractPersistenceEntity;
 import com.trakto.traktoroute.trip.domain.model.enums.StopReason;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopId;
 import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.TripInstant;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stop.StopIdPersistenceConverter;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stop.TripInstantPersistenceConverter;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stop.StopLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stops.StopIdPersistenceConverter;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.converters.stops.TripInstantPersistenceConverter;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.stops.StopLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips.TripPersistenceEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
