@@ -124,10 +124,7 @@ public final class TripPersistenceAssembler {
         synchronizeStops(trip, entity);
     }
 
-    // -----------------------------------------------------
     // Synchronize Stops
-    // -----------------------------------------------------
-
     private static void synchronizeStops(Trip trip,
                                         TripPersistenceEntity entity) {
 
@@ -151,13 +148,12 @@ public final class TripPersistenceAssembler {
 
                 entity.addStop(newPersistenceStop);
 
-                continue;
+            }else {
+                TripStopPersistenceAssembler
+                        .updatePersistenceFromDomain(domainStop,
+                                                    persistenceStop
+                        );
             }
-
-            TripStopPersistenceAssembler
-                    .updatePersistenceFromDomain(domainStop,
-                                                persistenceStop
-                    );
         }
     }
 }
