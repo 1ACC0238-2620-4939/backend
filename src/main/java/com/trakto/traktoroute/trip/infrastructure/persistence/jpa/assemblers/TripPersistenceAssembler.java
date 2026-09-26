@@ -33,7 +33,8 @@ public final class TripPersistenceAssembler {
         return new TripSchedule(
                 schedule.getScheduledAt(),
                 schedule.getStartedAt(),
-                schedule.getCompletedAt()
+                schedule.getCompletedAt(),
+                schedule.getCancelledAt()
         );
     }
 
@@ -80,7 +81,8 @@ public final class TripPersistenceAssembler {
         return new TripSchedulePersistenceEmbeddable(
                 schedule.scheduledAt(),
                 schedule.startedAt(),
-                schedule.completedAt()
+                schedule.completedAt(),
+                schedule.cancelledAt()
         );
     }
 

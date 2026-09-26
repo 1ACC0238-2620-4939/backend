@@ -24,4 +24,7 @@ public class TripSchedulePersistenceEmbeddable {
 
     @Column(name = "completed_at")
     private Instant completedAt;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
 }

@@ -1,12 +1,13 @@
 package com.trakto.traktoroute.shared.application.result;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @NullMarked
 public record ApplicationError(
         String code,
         String message,
-        String details) {
+        @Nullable String details) {
 
     public ApplicationError(String code, String message) {
         this(code, message, null);

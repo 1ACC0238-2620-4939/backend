@@ -47,14 +47,14 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
             TripRoutePlan routePlan,
             List<TripStop> stops
     ) {
-        this.id = Objects.requireNonNull(id);
-        this.driverId = Objects.requireNonNull(driverId);
-        this.vehicleId = Objects.requireNonNull(vehicleId);
-        this.origin = Objects.requireNonNull(origin);
-        this.destination = Objects.requireNonNull(destination);
-        this.status = Objects.requireNonNull(status);
-        this.schedule = Objects.requireNonNull(schedule);
-        this.routePlan = Objects.requireNonNull(routePlan);
+        this.id = Objects.requireNonNull(id,"Trip id cannot be null");
+        this.driverId = Objects.requireNonNull(driverId,"Driver id cannot be null");
+        this.vehicleId = Objects.requireNonNull(vehicleId,"Vehicle id cannot be null");
+        this.origin = Objects.requireNonNull(origin,"Origin cannot be null");
+        this.destination = Objects.requireNonNull(destination,"Destination cannot be null");
+        this.status = Objects.requireNonNull(status,"Trip status cannot be null");
+        this.schedule = Objects.requireNonNull(schedule,"Trip schedule cannot be null");
+        this.routePlan = Objects.requireNonNull(routePlan,"Trip route plan cannot be null");
         this.stops = new ArrayList<>(Objects.requireNonNull(stops)
         );
     }
@@ -153,11 +153,13 @@ public class Trip extends AbstractDomainAggregateRoot<Trip> {
             throw new IllegalStateException("Trip is already cancelled");
         }
 
+        this.schedule = schedule.cancel(cancelledAt);
         this.status = TripStatus.CANCELLED;
 
         registerDomainEvent(
-                new TripCancelledEvent(id,
-                                        cancelledAt));
+                new TripCancelledEvent(
+                        id,
+                        cancelledAt));
     }
 
     public void registerStop(
