@@ -8,7 +8,7 @@ public record DriverId(UUID value) {
             throw new IllegalArgumentException("DriverId cannot be null");
         }
     }
-    public DriverId generate() {
+    public static DriverId generate() {
         return new DriverId(UUID.randomUUID());
     }
 }

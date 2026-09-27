@@ -4,6 +4,7 @@ import com.trakto.traktoroute.fleet.domain.model.aggregates.Driver;
 import com.trakto.traktoroute.fleet.domain.model.enums.DriverStatus;
 import com.trakto.traktoroute.fleet.domain.model.valueobjects.driver.DriverId;
 import com.trakto.traktoroute.fleet.domain.model.valueobjects.driver.LicenseNumber;
+import com.trakto.traktoroute.fleet.domain.model.valueobjects.driver.ProfileId;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +15,15 @@ public interface DriverRepository {
 
     Optional<Driver> findById(DriverId driverId);
 
+    Optional<Driver> findByProfileId(ProfileId profileId);
+
     List<Driver> findAll();
 
     List<Driver> findByStatus(DriverStatus status);
 
     boolean existsById(DriverId driverId);
+
+    boolean existsByProfileId(ProfileId profileId);
 
     boolean existsByLicenseNumber(LicenseNumber licenseNumber);
 }

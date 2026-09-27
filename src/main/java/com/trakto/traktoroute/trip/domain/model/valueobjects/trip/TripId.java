@@ -1,10 +1,8 @@
 package com.trakto.traktoroute.trip.domain.model.valueobjects.trip;
 
-
 import java.util.UUID;
 
 public record TripId(UUID value){
-
     public TripId {
         if (value == null)
             throw new IllegalArgumentException("TripId cannot be null");

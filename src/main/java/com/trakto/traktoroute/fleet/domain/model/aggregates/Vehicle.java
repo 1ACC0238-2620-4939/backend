@@ -90,6 +90,10 @@ public class Vehicle extends AbstractDomainAggregateRoot<Vehicle> {
                     Instant.now()));
     }
 
+    public void changePlateNumber(PlateNumber plateNumber) {
+        this.plateNumber = Objects.requireNonNull(plateNumber, "Plate number cannot be null");
+    }
+
     public boolean isActive() {
         return status == VehicleStatus.ACTIVE;
     }
