@@ -7,7 +7,7 @@ import com.trakto.traktoroute.fleet.domain.model.valueobjects.driver.LicenseNumb
 import com.trakto.traktoroute.fleet.domain.model.valueobjects.driver.ProfileId;
 import com.trakto.traktoroute.fleet.domain.repositories.DriverRepository;
 import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.assemblers.driver.DriverPersistenceAssembler;
-import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.repositories.driver.DriverJpaRepository;
+import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.repositories.driver.DriverPersistenceRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,18 +16,16 @@ import java.util.Optional;
 @Repository
 public class DriverRepositoryIml implements DriverRepository {
 
-    private final DriverJpaRepository driverJpaRepository;
+    private final DriverPersistenceRepository driverPersistenceRepository;
 
-    public DriverRepositoryIml(
-            DriverJpaRepository driverJpaRepository) {
-        this.driverJpaRepository = driverJpaRepository;
+    public DriverRepositoryIml(DriverPersistenceRepository driverPersistenceRepository) {
+        this.driverPersistenceRepository = driverPersistenceRepository;
     }
 
     @Override
     public Driver save(Driver driver) {
 
-        var existingEntity = driverJpaRepository.findByDriverId(
-                        driver.getId());
+        var existingEntity = driverPersistenceRepository.findByDriverId(driver.getId());
 
         if (existingEntity.isPresent()) {
             var entity = existingEntity.get();
@@ -36,33 +34,30 @@ public class DriverRepositoryIml implements DriverRepository {
                     driver,
                     entity);
 
-            var savedEntity = driverJpaRepository.save(entity);
+            var savedEntity = driverPersistenceRepository.save(entity);
             return DriverPersistenceAssembler.toDomainFromPersistence(savedEntity);
         }
 
         var newEntity = DriverPersistenceAssembler.toPersistenceFromDomain(driver);
-        var savedEntity = driverJpaRepository.save(newEntity);
+        var savedEntity = driverPersistenceRepository.save(newEntity);
         return DriverPersistenceAssembler.toDomainFromPersistence(savedEntity);
     }
 
     @Override
     public Optional<Driver> findById(DriverId driverId) {
-        return driverJpaRepository
-                .findByDriverId(driverId)
+        return driverPersistenceRepository.findByDriverId(driverId)
                 .map(DriverPersistenceAssembler::toDomainFromPersistence);
     }
 
     @Override
     public Optional<Driver> findByProfileId(ProfileId profileId) {
-        return driverJpaRepository
-                .findByProfileId(profileId)
+        return driverPersistenceRepository.findByProfileId(profileId)
                 .map(DriverPersistenceAssembler::toDomainFromPersistence);
     }
 
     @Override
     public List<Driver> findAll() {
-        return driverJpaRepository
-                .findAll()
+        return driverPersistenceRepository.findAll()
                 .stream()
                 .map(DriverPersistenceAssembler::toDomainFromPersistence)
                 .toList();
@@ -70,8 +65,7 @@ public class DriverRepositoryIml implements DriverRepository {
 
     @Override
     public List<Driver> findByStatus(DriverStatus status) {
-        return driverJpaRepository
-                .findByStatus(status)
+        return driverPersistenceRepository.findByStatus(status)
                 .stream()
                 .map(DriverPersistenceAssembler::toDomainFromPersistence)
                 .toList();
@@ -79,16 +73,16 @@ public class DriverRepositoryIml implements DriverRepository {
 
     @Override
     public boolean existsById(DriverId driverId) {
-        return driverJpaRepository.existsByDriverId(driverId);
+        return driverPersistenceRepository.existsByDriverId(driverId);
     }
 
     @Override
     public boolean existsByProfileId(ProfileId profileId) {
-        return driverJpaRepository.existsByProfileId(profileId);
+        return driverPersistenceRepository.existsByProfileId(profileId);
     }
 
     @Override
     public boolean existsByLicenseNumber(LicenseNumber licenseNumber) {
-        return driverJpaRepository.existsByLicenseNumber(licenseNumber);
+        return driverPersistenceRepository.existsByLicenseNumber(licenseNumber);
     }
 }

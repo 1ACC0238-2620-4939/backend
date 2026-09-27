@@ -6,7 +6,7 @@ import com.trakto.traktoroute.fleet.domain.model.valueobjects.vehicle.PlateNumbe
 import com.trakto.traktoroute.fleet.domain.model.valueobjects.vehicle.VehicleId;
 import com.trakto.traktoroute.fleet.domain.repositories.VehicleRepository;
 import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.assemblers.vehicle.VehiclePersistenceAssembler;
-import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.repositories.vehicle.VehicleJpaRepository;
+import com.trakto.traktoroute.fleet.infrastructure.persistence.jpa.repositories.vehicle.VehiclePersistenceRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,18 +15,16 @@ import java.util.Optional;
 @Repository
 public class VehicleRepositoryIml implements VehicleRepository {
 
-    private final VehicleJpaRepository vehicleJpaRepository;
+    private final VehiclePersistenceRepository vehicleRepositoryIml;
 
-    public VehicleRepositoryIml(
-            VehicleJpaRepository vehicleJpaRepository) {
-        this.vehicleJpaRepository = vehicleJpaRepository;
+    public VehicleRepositoryIml(VehiclePersistenceRepository vehicleRepositoryIml) {
+        this.vehicleRepositoryIml = vehicleRepositoryIml;
     }
 
     @Override
     public Vehicle save(Vehicle vehicle) {
 
-        var existingEntity = vehicleJpaRepository.findByVehicleId(
-                        vehicle.getId());
+        var existingEntity = vehicleRepositoryIml.findByVehicleId(vehicle.getId());
 
         if (existingEntity.isPresent()) {
 
@@ -36,25 +34,25 @@ public class VehicleRepositoryIml implements VehicleRepository {
                     entity
             );
 
-            var savedEntity = vehicleJpaRepository.save(entity);
+            var savedEntity = vehicleRepositoryIml.save(entity);
             return VehiclePersistenceAssembler.toDomainFromPersistence(savedEntity);
         }
 
         var newEntity = VehiclePersistenceAssembler.toPersistenceFromDomain(vehicle);
-        var savedEntity = vehicleJpaRepository.save(newEntity);
+        var savedEntity = vehicleRepositoryIml.save(newEntity);
         return VehiclePersistenceAssembler.toDomainFromPersistence(savedEntity);
     }
 
     @Override
     public Optional<Vehicle> findById(VehicleId vehicleId) {
-        return vehicleJpaRepository
+        return vehicleRepositoryIml
                 .findByVehicleId(vehicleId)
                 .map(VehiclePersistenceAssembler::toDomainFromPersistence);
     }
 
     @Override
     public List<Vehicle> findAll() {
-        return vehicleJpaRepository
+        return vehicleRepositoryIml
                 .findAll()
                 .stream()
                 .map(VehiclePersistenceAssembler::toDomainFromPersistence)
@@ -63,7 +61,7 @@ public class VehicleRepositoryIml implements VehicleRepository {
 
     @Override
     public List<Vehicle> findByStatus(VehicleStatus status) {
-        return vehicleJpaRepository
+        return vehicleRepositoryIml
                 .findByStatus(status)
                 .stream()
                 .map(VehiclePersistenceAssembler::toDomainFromPersistence)
@@ -72,11 +70,11 @@ public class VehicleRepositoryIml implements VehicleRepository {
 
     @Override
     public boolean existsById(VehicleId vehicleId) {
-        return vehicleJpaRepository.existsByVehicleId(vehicleId);
+        return vehicleRepositoryIml.existsByVehicleId(vehicleId);
     }
 
     @Override
     public boolean existsByPlateNumber(PlateNumber plateNumber) {
-        return vehicleJpaRepository.existsByPlateNumber(plateNumber);
+        return vehicleRepositoryIml.existsByPlateNumber(plateNumber);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface VehicleJpaRepository
+public interface VehiclePersistenceRepository
         extends JpaRepository<VehiclePersistenceEntity, Long> {
 
     Optional<VehiclePersistenceEntity> findByVehicleId(VehicleId vehicleId);
