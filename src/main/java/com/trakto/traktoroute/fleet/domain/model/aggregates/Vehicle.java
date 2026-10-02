@@ -98,4 +98,11 @@ public class Vehicle extends AbstractDomainAggregateRoot<Vehicle> {
         return status == VehicleStatus.ACTIVE;
     }
 
+    public void changeCapacity(VehicleCapacity capacity) {
+        this.capacity = Objects.requireNonNull(
+                capacity,
+                "Vehicle capacity cannot be null"
+        );
+    }
+
 }
