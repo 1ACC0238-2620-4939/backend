@@ -41,7 +41,8 @@ public class TripQueryController {
 
         var trips = tripQueryService.handle(new GetAllTripsQuery());
 
-        var responses = trips.stream()
+        var responses = trips
+                .stream()
                 .map(TripResponseFromEntityAssembler::toResponse)
                 .toList();
 
@@ -78,7 +79,8 @@ public class TripQueryController {
 
         var trips = tripQueryService.handle(query);
 
-        var responses = trips.stream()
+        var responses = trips
+                .stream()
                 .map(TripResponseFromEntityAssembler::toResponse)
                 .toList();
 
@@ -98,7 +100,8 @@ public class TripQueryController {
 
         List<TripStop> stops = tripQueryService.handle(query);
 
-        var responses = stops.stream()
+        var responses = stops
+                .stream()
                 .map(TripStopResponseFromEntityAssembler::toResponse)
                 .toList();
 
