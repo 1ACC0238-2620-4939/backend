@@ -13,7 +13,6 @@ import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TripSchedulePersistenceEmbeddable {
 
     @Column(name = "scheduled_at", nullable = false)
@@ -27,4 +26,14 @@ public class TripSchedulePersistenceEmbeddable {
 
     @Column(name = "cancelled_at")
     private Instant cancelledAt;
+
+    public TripSchedulePersistenceEmbeddable(Instant scheduledAt,
+                                             Instant startedAt,
+                                             Instant completedAt,
+                                             Instant cancelledAt) {
+        this.scheduledAt = scheduledAt;
+        this.startedAt = startedAt;
+        this.completedAt = completedAt;
+        this.cancelledAt = cancelledAt;
+    }
 }

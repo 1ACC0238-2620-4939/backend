@@ -11,6 +11,7 @@ import com.trakto.traktoroute.trip.interfaces.rest.transform.CompleteTripCommand
 import com.trakto.traktoroute.trip.interfaces.rest.transform.CreateTripCommandFromRequestAssembler;
 import com.trakto.traktoroute.trip.interfaces.rest.transform.StartTripCommandFromRequestAssembler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/trips")
+@Tag(name = "Trip - Command",
+        description = "Trip management")
 public class TripCommandController {
 
     private final TripCommandService tripCommandService;

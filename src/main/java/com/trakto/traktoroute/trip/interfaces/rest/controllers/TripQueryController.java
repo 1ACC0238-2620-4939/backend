@@ -9,6 +9,7 @@ import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
 import com.trakto.traktoroute.trip.interfaces.rest.resources.responses.TripResponse;
 import com.trakto.traktoroute.trip.interfaces.rest.transform.TripResponseFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/trips")
+@Tag(name = "Trip - Queries",
+        description = "Trip management")
 public class TripQueryController {
 
     private final TripQueryService tripQueryService;

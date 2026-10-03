@@ -14,7 +14,6 @@ import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TripRoutePlanPersistenceEmbeddable {
 
     @Column(name = "route_distance_km", nullable = false)
@@ -23,9 +22,19 @@ public class TripRoutePlanPersistenceEmbeddable {
     @Column(name = "route_duration_minutes", nullable = false)
     private Integer durationMinutes;
 
-    @Column(name = "route_reference", nullable = false)
+    @Column(name = "route_reference", nullable = false, length = 255)
     private String routeReference;
 
     @Column(name = "route_calculated_at", nullable = false)
     private Instant calculatedAt;
+
+    public TripRoutePlanPersistenceEmbeddable(BigDecimal distanceKm,
+                                              Integer durationMinutes,
+                                              String routeReference,
+                                              Instant calculatedAt) {
+        this.distanceKm = distanceKm;
+        this.durationMinutes = durationMinutes;
+        this.routeReference = routeReference;
+        this.calculatedAt = calculatedAt;
+    }
 }

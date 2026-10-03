@@ -24,12 +24,10 @@ import lombok.Setter;
 public class TripPersistenceEntity extends AuditableAbstractPersistenceEntity {
 
     @Convert(converter = TripIdPersistenceConverter.class)
-    @Column(
-            name = "trip_id",
+    @Column(name = "trip_id",
             nullable = false,
             unique = true,
-            updatable = false
-    )
+            updatable = false)
     private TripId tripId;
 
     @Convert(converter = DriverIdPersistenceConverter.class)

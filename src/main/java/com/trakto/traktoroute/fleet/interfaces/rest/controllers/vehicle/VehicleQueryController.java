@@ -21,7 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/vehicles")
 @Tag(name = "Vehicle - Query",
-    description = "Fleet Mangament")
+    description = "Fleet management")
 public class VehicleQueryController {
 
     private final VehicleQueryService vehicleQueryService;

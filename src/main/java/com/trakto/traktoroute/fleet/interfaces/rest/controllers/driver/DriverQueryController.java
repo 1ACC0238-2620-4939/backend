@@ -13,6 +13,7 @@ import com.trakto.traktoroute.fleet.interfaces.rest.transform.driver.entities.Dr
 import com.trakto.traktoroute.shared.application.result.ApplicationError;
 import com.trakto.traktoroute.shared.interfaces.rest.transform.ErrorResponseAssembler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/drivers")
+@Tag(name = "Driver - Queries",
+        description = "Fleet management")
 public class DriverQueryController {
 
     private final DriverQueryService driverQueryService;
