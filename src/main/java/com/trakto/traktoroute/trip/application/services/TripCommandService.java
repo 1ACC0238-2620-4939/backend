@@ -2,9 +2,12 @@ package com.trakto.traktoroute.trip.application.services;
 
 import com.trakto.traktoroute.shared.application.result.ApplicationError;
 import com.trakto.traktoroute.shared.application.result.Result;
-import com.trakto.traktoroute.trip.application.commands.trips.*;
-import com.trakto.traktoroute.trip.application.commands.stops.*;
+import com.trakto.traktoroute.trip.application.commands.CancelTripCommand;
+import com.trakto.traktoroute.trip.application.commands.CompleteTripCommand;
+import com.trakto.traktoroute.trip.application.commands.CreateTripCommand;
+import com.trakto.traktoroute.trip.application.commands.StartTripCommand;
 import com.trakto.traktoroute.trip.domain.model.aggregates.Trip;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
 import com.trakto.traktoroute.trip.domain.repositories.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,155 +22,109 @@ public class TripCommandService {
     }
 
     @Transactional
-    public Result<Trip, ApplicationError> handle(CreateTripCommand command) {
+    public Result<TripId, ApplicationError> handle(
+            CreateTripCommand command
+    ) {
+        Trip trip;
+
         try {
-            Trip trip = Trip.create(command.driverId(),
-                                    command.vehicleId(),
-                                    command.origin(),
-                                    command.destination(),
-                                    command.schedule(),
-                                    command.routePlan());
-
-            Trip savedTrip = tripRepository.save(trip);
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.validationError(
-                            "Trip",
-                            e.getMessage()));
+            trip = Trip.create(
+                    command.driverId(),
+                    command.vehicleId(),
+                    command.origin(),
+                    command.destination(),
+                    command.schedule(),
+                    command.routePlan()
+            );
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Result.failure(
+                    ApplicationError.validationError("Trip", e.getMessage())
+            );
         }
+
+        Trip savedTrip = tripRepository.save(trip);
+
+        return Result.success(savedTrip.getId());
     }
 
     @Transactional
-    public Result<Trip, ApplicationError> handle(StartTripCommand command) {
-
+    public Result<Void, ApplicationError> handle(
+            StartTripCommand command
+    ) {
         var tripOptional = tripRepository.findById(command.tripId());
 
         if (tripOptional.isEmpty()) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            "Trip not found"));
+            return Result.failure(
+                    ApplicationError.notFound("Trip", "Trip not found")
+            );
         }
+
         Trip trip = tripOptional.get();
 
         try {
             trip.start(command.startedAt());
-            Trip savedTrip = tripRepository.save(trip);
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.validationError(
-                            "Trip",
-                            e.getMessage()));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Result.failure(
+                    ApplicationError.validationError("Trip", e.getMessage())
+            );
         }
+
+        tripRepository.save(trip);
+
+        return Result.success(null);
     }
 
     @Transactional
-    public Result<Trip, ApplicationError> handle(CompleteTripCommand command) {
-
+    public Result<Void, ApplicationError> handle(
+            CompleteTripCommand command
+    ) {
         var tripOptional = tripRepository.findById(command.tripId());
+
         if (tripOptional.isEmpty()) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            "Trip not found"));
+            return Result.failure(
+                    ApplicationError.notFound("Trip", "Trip not found")
+            );
         }
 
         Trip trip = tripOptional.get();
 
         try {
             trip.complete(command.completedAt());
-            Trip savedTrip = tripRepository.save(trip);
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.validationError(
-                            "Trip",
-                            e.getMessage()));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Result.failure(
+                    ApplicationError.validationError("Trip", e.getMessage())
+            );
         }
+
+        tripRepository.save(trip);
+
+        return Result.success(null);
     }
 
     @Transactional
-    public Result<Trip, ApplicationError> handle(CancelTripCommand command) {
-
+    public Result<Void, ApplicationError> handle(
+            CancelTripCommand command
+    ) {
         var tripOptional = tripRepository.findById(command.tripId());
 
         if (tripOptional.isEmpty()) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            "Trip not found"));
+            return Result.failure(
+                    ApplicationError.notFound("Trip", "Trip not found")
+            );
         }
 
         Trip trip = tripOptional.get();
 
         try {
             trip.cancel(command.cancelledAt());
-            Trip savedTrip = tripRepository.save(trip);
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            e.getMessage()));
-        }
-    }
-
-
-    @Transactional
-    public Result<Trip, ApplicationError> handle(StartTripStopCommand command) {
-
-        var tripOptional = tripRepository.findById(command.tripId());
-
-        if (tripOptional.isEmpty()) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            "Trip not found"));
-        }
-
-        Trip trip = tripOptional.get();
-
-        try {
-            trip.registerStop(
-                    command.location(),
-                    command.startedAt(),
-                    command.reason()
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Result.failure(
+                    ApplicationError.validationError("Trip", e.getMessage())
             );
-
-            Trip savedTrip = tripRepository.save(trip);
-
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.notFound(
-                            "TripStop",
-                            e.getMessage()));
         }
-    }
 
+        tripRepository.save(trip);
 
-    @Transactional
-    public Result<Trip, ApplicationError> handle(FinishTripStopCommand command) {
-
-        var tripOptional = tripRepository.findById(command.tripId());
-
-        if (tripOptional.isEmpty()) {
-            return Result.failure(ApplicationError.notFound(
-                            "Trip",
-                            "Trip not found"));
-        }
-        Trip trip = tripOptional.get();
-
-        try {
-            trip.finishStop(command.stopId(),
-                            command.endedAt()
-            );
-
-            Trip savedTrip = tripRepository.save(trip);
-            return Result.success(savedTrip);
-
-        } catch (Exception e) {
-            return Result.failure(ApplicationError.notFound(
-                            "TripStop",
-                            e.getMessage()));
-        }
+        return Result.success(null);
     }
 }

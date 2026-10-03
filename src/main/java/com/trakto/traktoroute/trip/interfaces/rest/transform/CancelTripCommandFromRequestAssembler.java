@@ -1,7 +1,7 @@
 package com.trakto.traktoroute.trip.interfaces.rest.transform;
 
-import com.trakto.traktoroute.trip.application.commands.trips.CancelTripCommand;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
+import com.trakto.traktoroute.trip.application.commands.CancelTripCommand;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
 import com.trakto.traktoroute.trip.interfaces.rest.resources.requests.CancelTripRequest;
 
 import java.util.UUID;

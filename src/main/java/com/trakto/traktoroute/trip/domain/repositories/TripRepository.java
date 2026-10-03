@@ -2,7 +2,7 @@ package com.trakto.traktoroute.trip.domain.repositories;
 
 import com.trakto.traktoroute.trip.domain.model.aggregates.Trip;
 import com.trakto.traktoroute.trip.domain.model.enums.TripStatus;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
 
 import java.util.List;
 import java.util.Optional;

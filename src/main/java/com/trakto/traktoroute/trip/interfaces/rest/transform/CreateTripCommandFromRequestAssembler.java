@@ -1,11 +1,11 @@
 package com.trakto.traktoroute.trip.interfaces.rest.transform;
 
-import com.trakto.traktoroute.trip.application.commands.trips.CreateTripCommand;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.DriverId;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripLocation;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripRoutePlan;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripSchedule;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.VehicleId;
+import com.trakto.traktoroute.trip.application.commands.CreateTripCommand;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.DriverId;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripLocation;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripRoutePlan;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripSchedule;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.VehicleId;
 import com.trakto.traktoroute.trip.interfaces.rest.resources.requests.CreateTripRequest;
 
 public class CreateTripCommandFromRequestAssembler {

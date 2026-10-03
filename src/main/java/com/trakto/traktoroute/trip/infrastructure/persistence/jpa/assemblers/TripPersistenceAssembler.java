@@ -1,18 +1,14 @@
 package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.assemblers;
 
 import com.trakto.traktoroute.trip.domain.model.aggregates.Trip;
-import com.trakto.traktoroute.trip.domain.model.entities.TripStop;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.stop.StopId;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripLocation;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripRoutePlan;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripSchedule;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripLocationPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripRoutePlanPersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.trips.TripSchedulePersistenceEmbeddable;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips.TripPersistenceEntity;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.stops.TripStopPersistenceEntity;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripLocation;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripRoutePlan;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripSchedule;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.TripLocationPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.TripRoutePlanPersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.embeddables.TripSchedulePersistenceEmbeddable;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripPersistenceEntity;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public final class TripPersistenceAssembler {
@@ -21,7 +17,10 @@ public final class TripPersistenceAssembler {
     }
 
     // To Domain
-    private static TripLocation toDomainLocation(TripLocationPersistenceEmbeddable location) {
+
+    private static TripLocation toDomainLocation(
+            TripLocationPersistenceEmbeddable location
+    ) {
         return new TripLocation(
                 location.getAddress(),
                 location.getLatitude(),
@@ -29,7 +28,9 @@ public final class TripPersistenceAssembler {
         );
     }
 
-    private static TripSchedule toDomainSchedule(TripSchedulePersistenceEmbeddable schedule) {
+    private static TripSchedule toDomainSchedule(
+            TripSchedulePersistenceEmbeddable schedule
+    ) {
         return new TripSchedule(
                 schedule.getScheduledAt(),
                 schedule.getStartedAt(),
@@ -38,7 +39,9 @@ public final class TripPersistenceAssembler {
         );
     }
 
-    private static TripRoutePlan toDomainRoutePlan(TripRoutePlanPersistenceEmbeddable routePlan) {
+    private static TripRoutePlan toDomainRoutePlan(
+            TripRoutePlanPersistenceEmbeddable routePlan
+    ) {
         return new TripRoutePlan(
                 routePlan.getDistanceKm(),
                 routePlan.getDurationMinutes(),
@@ -47,13 +50,10 @@ public final class TripPersistenceAssembler {
         );
     }
 
-    public static Trip toDomainFromPersistence(TripPersistenceEntity entity) {
-        Objects.requireNonNull(entity);
-
-        var stops = entity.getStops()
-                .stream()
-                .map(TripStopPersistenceAssembler::toDomainFromPersistence)
-                .toList();
+    public static Trip toDomainFromPersistence(
+            TripPersistenceEntity entity
+    ) {
+        Objects.requireNonNull(entity, "Trip entity cannot be null");
 
         return Trip.reconstitute(
                 entity.getTripId(),
@@ -63,13 +63,15 @@ public final class TripPersistenceAssembler {
                 toDomainLocation(entity.getDestination()),
                 entity.getStatus(),
                 toDomainSchedule(entity.getSchedule()),
-                toDomainRoutePlan(entity.getRoutePlan()),
-                stops
+                toDomainRoutePlan(entity.getRoutePlan())
         );
     }
 
     // To Persistence
-    private static TripLocationPersistenceEmbeddable toPersistenceLocation(TripLocation location) {
+
+    private static TripLocationPersistenceEmbeddable toPersistenceLocation(
+            TripLocation location
+    ) {
         return new TripLocationPersistenceEmbeddable(
                 location.address(),
                 location.latitude(),
@@ -77,7 +79,9 @@ public final class TripPersistenceAssembler {
         );
     }
 
-    private static TripSchedulePersistenceEmbeddable toPersistenceSchedule(TripSchedule schedule) {
+    private static TripSchedulePersistenceEmbeddable toPersistenceSchedule(
+            TripSchedule schedule
+    ) {
         return new TripSchedulePersistenceEmbeddable(
                 schedule.scheduledAt(),
                 schedule.startedAt(),
@@ -86,7 +90,9 @@ public final class TripPersistenceAssembler {
         );
     }
 
-    private static TripRoutePlanPersistenceEmbeddable toPersistenceRoutePlan(TripRoutePlan routePlan) {
+    private static TripRoutePlanPersistenceEmbeddable toPersistenceRoutePlan(
+            TripRoutePlan routePlan
+    ) {
         return new TripRoutePlanPersistenceEmbeddable(
                 routePlan.distanceKm(),
                 routePlan.durationMinutes(),
@@ -96,11 +102,25 @@ public final class TripPersistenceAssembler {
     }
 
     public static TripPersistenceEntity toPersistenceFromDomain(Trip trip) {
-        Objects.requireNonNull(trip);
+        Objects.requireNonNull(trip, "Trip cannot be null");
 
         var entity = new TripPersistenceEntity();
 
         entity.setTripId(trip.getId());
+        updatePersistenceFromDomain(trip, entity);
+
+        return entity;
+    }
+
+    // Update Persistence
+
+    public static void updatePersistenceFromDomain(
+            Trip trip,
+            TripPersistenceEntity entity
+    ) {
+        Objects.requireNonNull(trip, "Trip cannot be null");
+        Objects.requireNonNull(entity, "Trip entity cannot be null");
+
         entity.setDriverId(trip.getDriverId());
         entity.setVehicleId(trip.getVehicleId());
         entity.setOrigin(toPersistenceLocation(trip.getOrigin()));
@@ -108,54 +128,5 @@ public final class TripPersistenceAssembler {
         entity.setStatus(trip.getStatus());
         entity.setSchedule(toPersistenceSchedule(trip.getSchedule()));
         entity.setRoutePlan(toPersistenceRoutePlan(trip.getRoutePlan()));
-
-        return entity;
-    }
-
-    // Update Persistence
-
-    public static void updatePersistenceFromDomain(Trip trip,
-                                                    TripPersistenceEntity entity) {
-        Objects.requireNonNull(trip);
-        Objects.requireNonNull(entity);
-
-        entity.setStatus(trip.getStatus());
-        entity.setSchedule(toPersistenceSchedule(trip.getSchedule()));
-        entity.setRoutePlan(toPersistenceRoutePlan(trip.getRoutePlan()));
-
-        synchronizeStops(trip, entity);
-    }
-
-    // Synchronize Stops
-    private static void synchronizeStops(Trip trip,
-                                        TripPersistenceEntity entity) {
-
-            var persistenceStopsById = new HashMap<StopId, TripStopPersistenceEntity>();
-
-        for (TripStopPersistenceEntity persistenceStop : entity.getStops()) {
-            persistenceStopsById.put(
-                    persistenceStop.getStopId(),
-                    persistenceStop
-            );
-        }
-
-        for (TripStop domainStop : trip.getStops()) {
-            TripStopPersistenceEntity persistenceStop =
-                    persistenceStopsById.get(domainStop.getId());
-
-            if (persistenceStop == null) {
-
-                TripStopPersistenceEntity newPersistenceStop =
-                        TripStopPersistenceAssembler.toPersistenceFromDomain(domainStop);
-
-                entity.addStop(newPersistenceStop);
-
-            }else {
-                TripStopPersistenceAssembler
-                        .updatePersistenceFromDomain(domainStop,
-                                                    persistenceStop
-                        );
-            }
-        }
     }
 }

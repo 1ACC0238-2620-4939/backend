@@ -1,8 +1,8 @@
 package com.trakto.traktoroute.trip.infrastructure.persistence.jpa.repositories;
 
 import com.trakto.traktoroute.trip.domain.model.enums.TripStatus;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
-import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.trips.TripPersistenceEntity;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
+import com.trakto.traktoroute.trip.infrastructure.persistence.jpa.entities.TripPersistenceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.trakto.traktoroute.trip.application.services;
 
-import com.trakto.traktoroute.trip.application.queries.trips.*;
-import com.trakto.traktoroute.trip.application.queries.stops.*;
+import com.trakto.traktoroute.trip.application.queries.GetAllTripsQuery;
+import com.trakto.traktoroute.trip.application.queries.GetTripByIdQuery;
+import com.trakto.traktoroute.trip.application.queries.GetTripsByStatusQuery;
 import com.trakto.traktoroute.trip.domain.model.aggregates.Trip;
-import com.trakto.traktoroute.trip.domain.model.entities.TripStop;
 import com.trakto.traktoroute.trip.domain.repositories.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,9 @@ public class TripQueryService {
 
     public Trip handle(GetTripByIdQuery query) {
         return tripRepository.findById(query.tripId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Trip not found")
+                );
     }
 
     public List<Trip> handle(GetAllTripsQuery query) {
@@ -31,24 +33,5 @@ public class TripQueryService {
 
     public List<Trip> handle(GetTripsByStatusQuery query) {
         return tripRepository.findByStatus(query.status());
-    }
-
-    public List<TripStop> handle(GetStopsByTripIdQuery query) {
-
-        Trip trip = tripRepository.findById(query.tripId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
-
-        return trip.getStops();
-    }
-
-    public TripStop handle(GetStopByTripIdAndStopIdQuery query) {
-
-        Trip trip = tripRepository.findById(query.tripId())
-                        .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
-
-        return trip.getStops().stream()
-                .filter(stop -> stop.getId().equals(query.stopId()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Stop not found in trip"));
     }
 }

@@ -1,8 +1,8 @@
 package com.trakto.traktoroute.trip.domain.model.events;
 
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.DriverId;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.TripId;
-import com.trakto.traktoroute.trip.domain.model.valueobjects.trip.VehicleId;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.DriverId;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.TripId;
+import com.trakto.traktoroute.trip.domain.model.valueobjects.VehicleId;
 
 import java.time.Instant;
 
