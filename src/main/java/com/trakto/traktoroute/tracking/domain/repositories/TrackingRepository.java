@@ -15,4 +15,5 @@ public interface TrackingRepository {
     Optional<Tracking> findByTripReferenceId(TripReferenceId tripReferenceId);
 
     boolean existsByTripReferenceId(TripReferenceId tripReferenceId);
+
 }
