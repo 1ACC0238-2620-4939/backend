@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import com.trakto.traktoroute.shared.application.result.Result;
+import com.trakto.traktoroute.shared.application.result.ApplicationError;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,11 +22,10 @@ public class TripQueryService {
         this.tripRepository = tripRepository;
     }
 
-    public Trip handle(GetTripByIdQuery query) {
+    public Result<Trip, ApplicationError> handle(GetTripByIdQuery query) {
         return tripRepository.findById(query.tripId())
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Trip not found")
-                );
+                .<Result<Trip, ApplicationError>>map(Result::success)
+                .orElseGet(() -> Result.failure(ApplicationError.notFound("Trip", "Trip not found")));
     }
 
     public List<Trip> handle(GetAllTripsQuery query) {
