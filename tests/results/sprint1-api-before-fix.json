@@ -1,0 +1,330 @@
+{
+  "base_url": "https://backend-production-8735.up.railway.app",
+  "utc_epoch": 1791179809.7932818,
+  "results": [
+    {
+      "scenario": "Vehicle registration survives a separate read",
+      "status": "FAIL",
+      "error": "",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/v1/vehicles",
+          "request": {
+            "plateNumber": "YEN-541",
+            "capacity": 1500
+          },
+          "status": 201,
+          "response": {
+            "vehicleId": "8d5f8a3d-6612-46fd-a60b-957f05c30d48",
+            "plateNumber": "YEN541",
+            "capacity": 1500,
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/vehicles/8d5f8a3d-6612-46fd-a60b-957f05c30d48/capacity",
+          "request": {
+            "capacity": 2500
+          },
+          "status": 200,
+          "response": {
+            "vehicleId": "8d5f8a3d-6612-46fd-a60b-957f05c30d48",
+            "plateNumber": "YEN541",
+            "capacity": 2500,
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/vehicles/8d5f8a3d-6612-46fd-a60b-957f05c30d48",
+          "request": null,
+          "status": 200,
+          "response": {
+            "vehicleId": "8d5f8a3d-6612-46fd-a60b-957f05c30d48",
+            "plateNumber": "YEN541",
+            "capacity": 2500.0,
+            "status": "ACTIVE"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "A scheduled trip can start and complete",
+      "status": "PASS",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/v1/vehicles",
+          "request": {
+            "plateNumber": "QBR-776",
+            "capacity": 1500
+          },
+          "status": 201,
+          "response": {
+            "vehicleId": "c3dd36ea-065d-474a-b6b1-e934ddbc6d31",
+            "plateNumber": "QBR776",
+            "capacity": 1500,
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/profiles",
+          "request": {
+            "userReferenceId": "d878cff0-4650-4f8d-8539-1b0187f4c45b",
+            "givenNames": "TB1 Technical Test",
+            "paternalSurname": "Evidence",
+            "maternalSurname": "Only"
+          },
+          "status": 201,
+          "response": {
+            "profileId": "7532341e-91c9-453d-bd7d-55c34975e04d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/drivers",
+          "request": {
+            "profileId": "7532341e-91c9-453d-bd7d-55c34975e04d",
+            "licenseNumber": "A23582300"
+          },
+          "status": 201,
+          "response": {
+            "driverId": "9690eedb-ebec-48f2-8e51-9c812c9b9d4b",
+            "profileId": "7532341e-91c9-453d-bd7d-55c34975e04d",
+            "licenseNumber": "A23582300",
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/trips",
+          "request": {
+            "driverId": "9690eedb-ebec-48f2-8e51-9c812c9b9d4b",
+            "vehicleId": "c3dd36ea-065d-474a-b6b1-e934ddbc6d31",
+            "originAddress": "TB1 test origin",
+            "originLatitude": -12.04,
+            "originLongitude": -77.03,
+            "destinationAddress": "TB1 test destination",
+            "destinationLatitude": -12.12,
+            "destinationLongitude": -77.02,
+            "scheduledAt": "2026-10-06T12:00:00Z",
+            "distanceKm": 15,
+            "durationMinutes": 45,
+            "routeReference": "tb1-test-480f4d7f72d349f29b681db4f6a6eecb",
+            "calculatedAt": "2026-10-05T12:00:00Z"
+          },
+          "status": 201,
+          "response": {
+            "tripId": "806b9a4f-a362-4558-b5f0-0922e6c7bdbb"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/trips/806b9a4f-a362-4558-b5f0-0922e6c7bdbb/start",
+          "request": {
+            "startedAt": "2026-10-06T12:00:00Z"
+          },
+          "status": 204,
+          "response": null
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/trips/806b9a4f-a362-4558-b5f0-0922e6c7bdbb/complete",
+          "request": {
+            "completedAt": "2026-10-06T13:00:00Z"
+          },
+          "status": 204,
+          "response": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/trips/806b9a4f-a362-4558-b5f0-0922e6c7bdbb",
+          "request": null,
+          "status": 200,
+          "response": {
+            "tripId": "806b9a4f-a362-4558-b5f0-0922e6c7bdbb",
+            "driverId": "9690eedb-ebec-48f2-8e51-9c812c9b9d4b",
+            "vehicleId": "c3dd36ea-065d-474a-b6b1-e934ddbc6d31",
+            "originAddress": "TB1 test origin",
+            "originLatitude": -12.04,
+            "originLongitude": -77.03,
+            "destinationAddress": "TB1 test destination",
+            "destinationLatitude": -12.12,
+            "destinationLongitude": -77.02,
+            "status": "COMPLETED",
+            "scheduledAt": "2026-10-06T12:00:00Z",
+            "startedAt": "2026-10-06T12:00:00Z",
+            "completedAt": "2026-10-06T13:00:00Z",
+            "cancelledAt": null,
+            "distanceKm": 15.0,
+            "durationMinutes": 45,
+            "routeReference": "tb1-test-480f4d7f72d349f29b681db4f6a6eecb",
+            "calculatedAt": "2026-10-05T12:00:00Z"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/trips/806b9a4f-a362-4558-b5f0-0922e6c7bdbb/cancel",
+          "request": {
+            "cancelledAt": "2026-10-06T14:00:00Z"
+          },
+          "status": 400,
+          "response": {
+            "code": "VALIDATION_ERROR",
+            "message": "Validation failed: Trip",
+            "details": "Completed trip cannot be cancelled"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "A missing trip returns a client error",
+      "status": "FAIL",
+      "error": "(500, {'timestamp': '2026-10-05T05:56:45.937Z', 'status': 500, 'error': 'Internal Server Error', 'path': '/api/v1/trips/43c13a6a-7866-467f-a97d-e70ebbbe3728'})",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/trips/43c13a6a-7866-467f-a97d-e70ebbbe3728",
+          "request": null,
+          "status": 500,
+          "response": {
+            "timestamp": "2026-10-05T05:56:45.937Z",
+            "status": 500,
+            "error": "Internal Server Error",
+            "path": "/api/v1/trips/43c13a6a-7866-467f-a97d-e70ebbbe3728"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "Profile updates persist",
+      "status": "PASS",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/v1/profiles",
+          "request": {
+            "userReferenceId": "07acd588-8892-4b60-97d4-37208ffe27f3",
+            "givenNames": "TB1 Technical Test",
+            "paternalSurname": "Evidence",
+            "maternalSurname": "Only"
+          },
+          "status": 201,
+          "response": {
+            "profileId": "db1c221e-6321-40ad-85ee-30aadbf9e25f"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/profiles/db1c221e-6321-40ad-85ee-30aadbf9e25f/full-name",
+          "request": {
+            "givenNames": "Updated TB1 Test",
+            "paternalSurname": "Evidence",
+            "maternalSurname": "Only"
+          },
+          "status": 204,
+          "response": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/profiles/db1c221e-6321-40ad-85ee-30aadbf9e25f",
+          "request": null,
+          "status": 200,
+          "response": {
+            "profileId": "db1c221e-6321-40ad-85ee-30aadbf9e25f",
+            "userReferenceId": "07acd588-8892-4b60-97d4-37208ffe27f3",
+            "givenNames": "Updated TB1 Test",
+            "paternalSurname": "Evidence",
+            "maternalSurname": "Only"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "Driver state changes persist",
+      "status": "PASS",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/v1/profiles",
+          "request": {
+            "userReferenceId": "d1c2da8a-91e0-49ed-bd06-f30da9e7ead4",
+            "givenNames": "TB1 Technical Test",
+            "paternalSurname": "Evidence",
+            "maternalSurname": "Only"
+          },
+          "status": 201,
+          "response": {
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/drivers",
+          "request": {
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864"
+          },
+          "status": 201,
+          "response": {
+            "driverId": "fa04a728-e691-4b32-8fd7-3de9f619a054",
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864",
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/drivers/fa04a728-e691-4b32-8fd7-3de9f619a054/deactivate",
+          "request": null,
+          "status": 200,
+          "response": {
+            "driverId": "fa04a728-e691-4b32-8fd7-3de9f619a054",
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864",
+            "status": "INACTIVE"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/drivers/fa04a728-e691-4b32-8fd7-3de9f619a054",
+          "request": null,
+          "status": 200,
+          "response": {
+            "driverId": "fa04a728-e691-4b32-8fd7-3de9f619a054",
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864",
+            "status": "INACTIVE"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/v1/drivers/fa04a728-e691-4b32-8fd7-3de9f619a054/activate",
+          "request": null,
+          "status": 200,
+          "response": {
+            "driverId": "fa04a728-e691-4b32-8fd7-3de9f619a054",
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864",
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/drivers/fa04a728-e691-4b32-8fd7-3de9f619a054",
+          "request": null,
+          "status": 200,
+          "response": {
+            "driverId": "fa04a728-e691-4b32-8fd7-3de9f619a054",
+            "profileId": "8d2a3240-da8c-4941-b5aa-ec40b891ad4d",
+            "licenseNumber": "A50355864",
+            "status": "ACTIVE"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,8 @@ import com.trakto.traktoroute.trip.interfaces.rest.transform.TripResponseFromEnt
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import com.trakto.traktoroute.shared.interfaces.rest.transform.ResponseEntityAssembler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,16 +51,15 @@ public class TripQueryController {
             summary = "Get trip by ID",
             description = "Returns a specific trip using its unique identifier"
     )
-    public ResponseEntity<TripResponse> getTripById(
+    public ResponseEntity<?> getTripById(
             @PathVariable UUID tripId
     ) {
         var query = new GetTripByIdQuery(new TripId(tripId));
 
         var trip = tripQueryService.handle(query);
 
-        return ResponseEntity.ok(
-                TripResponseFromEntityAssembler.toResponse(trip)
-        );
+        return ResponseEntityAssembler.toResponseEntityFromResult(
+                trip, TripResponseFromEntityAssembler::toResponse, HttpStatus.OK);
     }
 
     @GetMapping("/status/{status}")
